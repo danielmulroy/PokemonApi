@@ -9,6 +9,6 @@ namespace PokemonDetailsProvider.DetailsApi
 {
     public interface IDetailsApi
     {
-        Task<DetailsApiResponse> Get(string name);
+        public Task<DetailsApiResponse> Get(string name);
     }
 }
