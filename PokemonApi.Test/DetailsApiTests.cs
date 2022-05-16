@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection.Metadata.Ecma335;
 using System.Resources;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using PokemonDetailsProvider.DetailsApi;
-using PokemonDetailsProvider.RequestWrapper;
+using PokemonApi.PokemonDetailsProvider.DetailsApi;
+using PokemonApi.PokemonDetailsProvider.RequestWrapper;
 using RestSharp;
 using Xunit;
 
@@ -38,7 +39,7 @@ public class DetailsApiTests
         var resp = await _apiUnderTest.Get("Mewtwo");
 
         Assert.NotNull(resp);
-        Assert.Equal(resp.FlavorTextList.FirstOrDefault().Desc, resp.Description);
+        Assert.Equal(resp.FlavorTextList.FirstOrDefault().Desc.Clean(), resp.Description);
         Assert.Equal("en", resp.FlavorTextList.FirstOrDefault().Language.Name);
         Assert.Equal(resp.HabitatInternal.Name, resp.Habitat);
         Assert.True(resp.IsLegendary);
@@ -53,7 +54,7 @@ public class DetailsApiTests
 
         _apiUnderTest = new DetailsApi(_configuration.Object, _requestWrapper.Object);
 
-        var resp = await _apiUnderTest.Get("Mewtwo");
+        var resp = await _apiUnderTest.Get("Diglett");
 
         Assert.Null(resp);
     }
@@ -71,4 +72,6 @@ public class DetailsApiTests
 
         return response;
     }
+
+    
 }

@@ -62,6 +62,55 @@ namespace PokemonApi.Test {
         
         /// <summary>
         ///   Looks up a localized string similar to {
+        ///  &quot;base_happiness&quot;: 50,
+        ///  &quot;capture_rate&quot;: 45,
+        ///  &quot;color&quot;: {
+        ///    &quot;name&quot;: &quot;red&quot;,
+        ///    &quot;url&quot;: &quot;https://pokeapi.co/api/v2/pokemon-color/8/&quot;
+        ///  },
+        ///  &quot;egg_groups&quot;: [
+        ///    {
+        ///      &quot;name&quot;: &quot;monster&quot;,
+        ///      &quot;url&quot;: &quot;https://pokeapi.co/api/v2/egg-group/1/&quot;
+        ///    },
+        ///    {
+        ///      &quot;name&quot;: &quot;dragon&quot;,
+        ///      &quot;url&quot;: &quot;https://pokeapi.co/api/v2/egg-group/14/&quot;
+        ///    }
+        ///  ],
+        ///  &quot;evolution_chain&quot;: {
+        ///    &quot;url&quot;: &quot;https://pokeapi.co/api/v2/evolution-chain/2/&quot;
+        ///  },
+        ///  &quot;evolves_from_species&quot;: {
+        ///    &quot;name&quot;: &quot;charmeleon&quot;,
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Charizard {
+            get {
+                return ResourceManager.GetString("Charizard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///    &quot;success&quot;: {
+        ///        &quot;total&quot;: 1
+        ///    },
+        ///    &quot;contents&quot;: {
+        ///        &quot;translated&quot;: &quot;Spits fire yond is hot enow to melt boulders. Known to cause forest fires unintentionally.&quot;,
+        ///        &quot;text&quot;: &quot;Spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally.&quot;,
+        ///        &quot;translation&quot;: &quot;shakespeare&quot;
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string CharizardShakespeare {
+            get {
+                return ResourceManager.GetString("CharizardShakespeare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
         ///  &quot;base_happiness&quot;: 0,
         ///  &quot;capture_rate&quot;: 3,
         ///  &quot;color&quot;: {
@@ -85,6 +134,24 @@ namespace PokemonApi.Test {
         internal static string Mewtwo {
             get {
                 return ResourceManager.GetString("Mewtwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///    &quot;success&quot;: {
+        ///        &quot;total&quot;: 1
+        ///    },
+        ///    &quot;contents&quot;: {
+        ///        &quot;translated&quot;: &quot;Created by a scientist after years of horrific gene splicing and dna engineering experiments,  it was.&quot;,
+        ///        &quot;text&quot;: &quot;It was created by a scientist after years of horrific gene splicing and DNA engineering experiments.&quot;,
+        ///        &quot;translation&quot;: &quot;yoda&quot;
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string MewtwoYoda {
+            get {
+                return ResourceManager.GetString("MewtwoYoda", resourceCulture);
             }
         }
     }

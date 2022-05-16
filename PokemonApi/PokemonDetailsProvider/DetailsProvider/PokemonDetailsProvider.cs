@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using PokemonDetailsProvider.DetailsApi;
-using PokemonDetailsProvider.DetailsProvider.Dto;
-using PokemonDetailsProvider.TranslationApi.Factory;
+using PokemonApi.PokemonDetailsProvider.DetailsApi;
+using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
+using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
 
-namespace PokemonDetailsProvider.DetailsProvider;
+namespace PokemonApi.PokemonDetailsProvider.DetailsProvider;
 
 public class PokemonDetailsProvider : IPokemonDetailsProvider
 {
@@ -27,7 +27,7 @@ public class PokemonDetailsProvider : IPokemonDetailsProvider
     public async Task<PokemonDetails> GetTranslatedPokemonDetails(string name)
     {
         var details = await GetPokemonDetails(name);
-        details.Description = _factory.GetTranslator(details).Translate(details.Description);
+        details.Description = await _factory.GetTranslator(details).Translate(details.Description);
         return details;
     }
 

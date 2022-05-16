@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using PokemonDetailsProvider.DetailsProvider;
-using PokemonDetailsProvider.DetailsProvider.Dto;
+using PokemonApi.PokemonDetailsProvider.DetailsProvider;
+using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
 
 namespace PokemonApi.Controllers;
 
