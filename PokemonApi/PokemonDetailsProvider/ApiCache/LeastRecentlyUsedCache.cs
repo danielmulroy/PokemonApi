@@ -51,7 +51,7 @@ namespace PokemonApi.PokemonDetailsProvider.ApiCache
                     _keys.RemoveAt(0);
                     _cache.Add(key, value);
                 }
-                _keys.Add(key); 
+                _keys.Add(key);
             }
         }
     }
