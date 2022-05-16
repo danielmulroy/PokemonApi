@@ -1,23 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
-using System.Resources;
-using System.Threading.Tasks;
-using System.Xml.Schema;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Moq;
-using PokemonApi.Controllers;
 using PokemonApi.PokemonDetailsProvider.ApiCache;
-using PokemonApi.PokemonDetailsProvider.DetailsApi;
-using PokemonApi.PokemonDetailsProvider.DetailsProvider;
-using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
-using PokemonApi.PokemonDetailsProvider.RequestWrapper;
-using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
-using PokemonApi.PokemonDetailsProvider.TranslationApi.Translators;
-using RestSharp;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace PokemonApi.Test;
@@ -59,11 +42,11 @@ public class CacheTests
         _cacheUnderTest = new LeastRecentlyUsedCache<int, string>(5);
 
         var listOfKvps = new List<(int Key, string Val)>
-            { (1, "One"), (2, "Two"), (3, "Three"), (4, "Four"), (5, "Five"), 
+            { (1, "One"), (2, "Two"), (3, "Three"), (4, "Four"), (5, "Five"),
               (6, "Six"), (7, "Seven"), (8, "Eight"), (9, "Nine"), (10, "Ten")};
 
         var listOfKeys = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        
+
         Task.Run(() => Parallel.ForEach(listOfKvps, item => _cacheUnderTest.Put(item.Key, item.Val)));
         Task.Run(() => Parallel.ForEach(listOfKeys, item => _cacheUnderTest.TryGet(item, out _)));
         Task.Run(() => Parallel.ForEach(listOfKvps, item => _cacheUnderTest.Put(item.Key, item.Val)));

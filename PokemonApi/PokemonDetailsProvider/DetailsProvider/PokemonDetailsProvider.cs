@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using PokemonApi.PokemonDetailsProvider.DetailsApi;
+﻿using PokemonApi.PokemonDetailsProvider.DetailsApi;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
 using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
+using System.Text.RegularExpressions;
 
 namespace PokemonApi.PokemonDetailsProvider.DetailsProvider;
 

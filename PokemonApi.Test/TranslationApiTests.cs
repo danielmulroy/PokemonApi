@@ -1,14 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
-using System.Resources;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using PokemonApi.PokemonDetailsProvider.DetailsApi;
 using PokemonApi.PokemonDetailsProvider.RequestWrapper;
 using PokemonApi.PokemonDetailsProvider.TranslationApi.Translators;
 using RestSharp;
+using System.Net;
 using Xunit;
 
 namespace PokemonApi.Test;
@@ -16,8 +11,8 @@ namespace PokemonApi.Test;
 public class TranslationApiTests
 {
     private ITranslator _apiUnderTest;
-    private Mock<IRequestWrapper> _requestWrapper;
-    private Mock<IConfiguration> _configuration;
+    private readonly Mock<IRequestWrapper> _requestWrapper;
+    private readonly Mock<IConfiguration> _configuration;
 
     public TranslationApiTests()
     {
@@ -110,5 +105,5 @@ public class TranslationApiTests
         return response;
     }
 
-    
+
 }

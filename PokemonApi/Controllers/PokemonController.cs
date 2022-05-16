@@ -1,8 +1,7 @@
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
-using Prometheus;
+using System.Net;
 
 namespace PokemonApi.Controllers;
 

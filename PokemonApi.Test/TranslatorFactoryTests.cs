@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Moq;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
 using PokemonApi.PokemonDetailsProvider.RequestWrapper;
 using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
 using PokemonApi.PokemonDetailsProvider.TranslationApi.Translators;
+using System;
 using Xunit;
 
 namespace PokemonApi.Test;

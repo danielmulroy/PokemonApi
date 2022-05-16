@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PokemonApi.PokemonDetailsProvider.ApiCache;
-using PokemonApi.PokemonDetailsProvider.DetailsApi;
 using PokemonApi.PokemonDetailsProvider.RequestWrapper;
 using RestSharp;
 
@@ -21,7 +14,7 @@ public abstract class TranslatorBase : ITranslator
 
     protected TranslatorBase(TranslatorType type, IConfiguration configuration, IRequestWrapper wrapper)
     {
-        var url = configuration.GetSection("ExternalApis").GetSection($"TranslationUrl").Value;
+        var url = configuration.GetSection("ExternalApis").GetSection("TranslationUrl").Value;
         _client = new RestClient(url + (url.EndsWith('/') ? "" : "/") + type);
         _wrapper = wrapper;
 

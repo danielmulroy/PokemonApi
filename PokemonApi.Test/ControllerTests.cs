@@ -1,22 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
-using System.Resources;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using PokemonApi.Controllers;
-using PokemonApi.PokemonDetailsProvider.DetailsApi;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
-using PokemonApi.PokemonDetailsProvider.RequestWrapper;
-using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
-using PokemonApi.PokemonDetailsProvider.TranslationApi.Translators;
-using RestSharp;
+using System;
 using Xunit;
 
 namespace PokemonApi.Test;
@@ -60,7 +47,7 @@ public class ControllerTests
 
         Assert.Equal(expectedType, result.GetType());
     }
-    
+
 
     private static PokemonDetails GetDetails(bool translated, bool nullDetails)
     {

@@ -1,24 +1,17 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
-using System.Resources;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using PokemonApi.PokemonDetailsProvider.DetailsApi;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
-using PokemonApi.PokemonDetailsProvider.RequestWrapper;
 using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
 using PokemonApi.PokemonDetailsProvider.TranslationApi.Translators;
-using RestSharp;
+using System.Collections.Generic;
 using Xunit;
 
 namespace PokemonApi.Test;
 
 public class DetailsProviderTests
 {
-    private IPokemonDetailsProvider _providerUnderTest;
+    private readonly IPokemonDetailsProvider _providerUnderTest;
 
     private const string DESC = "My name is Dave";
     private const string TRANSLATED_DESC = "Me llamo Dave";
