@@ -15,7 +15,7 @@ namespace PokemonApi.Test;
 
 public class TranslationApiTests
 {
-    private TranslatorBase _apiUnderTest;
+    private ITranslator _apiUnderTest;
     private Mock<IRequestWrapper> _requestWrapper;
     private Mock<IConfiguration> _configuration;
 

@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
+using Prometheus;
 
 namespace PokemonApi.Controllers;
 
@@ -10,6 +11,7 @@ namespace PokemonApi.Controllers;
 public class PokemonController : ControllerBase
 {
     private readonly IPokemonDetailsProvider _detailsProvider;
+
     public PokemonController(IPokemonDetailsProvider detailsProvider)
     {
         _detailsProvider = detailsProvider ?? throw new ArgumentNullException(nameof(detailsProvider));

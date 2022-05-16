@@ -20,7 +20,7 @@ public class TranslatorFactory : ITranslatorFactory
         _wrapper = wrapper;
     }
 
-    public TranslatorBase GetTranslator(PokemonDetails details)
+    public ITranslator GetTranslator(PokemonDetails details)
     {
         if (details.IsLegendary || details.Habitat == "cave")
             return new YodaTranslator(_configuration, _wrapper);

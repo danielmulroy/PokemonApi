@@ -38,7 +38,7 @@ public class PokemonDetailsProvider : IPokemonDetailsProvider
             error = "Name is blank. Please provide a name in the request.";
             return false;
         }
-        if (Regex.IsMatch(name, "[a-zA-Z]+"))
+        if (!Regex.IsMatch(name, "^[A-Za-z]+$"))
         {
             error = "Name contains non-letter characters. Please provide JUST the name in the request.";
             return false;

@@ -1,0 +1,79 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Reflection.Metadata.Ecma335;
+using System.Resources;
+using Microsoft.Extensions.Configuration;
+using Moq;
+using PokemonApi.PokemonDetailsProvider.DetailsApi;
+using PokemonApi.PokemonDetailsProvider.DetailsProvider;
+using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
+using PokemonApi.PokemonDetailsProvider.RequestWrapper;
+using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
+using PokemonApi.PokemonDetailsProvider.TranslationApi.Translators;
+using RestSharp;
+using Xunit;
+
+namespace PokemonApi.Test;
+
+public class DetailsProviderTests
+{
+    private IPokemonDetailsProvider _providerUnderTest;
+
+    private const string DESC = "My name is Dave";
+    private const string TRANSLATED_DESC = "Me llamo Dave";
+
+    public DetailsProviderTests()
+    {
+        var mockApi = new Mock<IDetailsApi>();
+        var dave = new DetailsApiResponse
+        {
+            Name = "Dave",
+            HabitatInternal = new Habitat { Name = "DaveHouse" },
+            FlavorTextList = new List<FlavorTextObj>
+                { new() { Desc = DESC, Language = new Language { Name = "en" } } },
+            IsLegendary = true
+        };
+        mockApi.Setup(m => m.Get(It.IsAny<string>())).ReturnsAsync(dave);
+
+        var mockFactory = new Mock<ITranslatorFactory>();
+        var mockTranslator = new Mock<ITranslator>();
+        mockTranslator.Setup(m => m.Translate(It.IsAny<string>())).ReturnsAsync(TRANSLATED_DESC);
+        mockFactory.Setup(m => m.GetTranslator(It.IsAny<PokemonDetails>())).Returns(mockTranslator.Object);
+
+        _providerUnderTest = new PokemonDetailsProvider.DetailsProvider.PokemonDetailsProvider(mockApi.Object, mockFactory.Object);
+    }
+
+    [Theory]
+    [InlineData("Mewtwo", true)]
+    [InlineData("Mew Two", false)]
+    [InlineData("Mew2", false)]
+    [InlineData("", false)]
+    public void NameIsValid_ReturnsAccurately(string name, bool expected)
+    {
+
+        var good = _providerUnderTest.NameIsValid(name, out _);
+
+        Assert.Equal(expected, good);
+    }
+
+    [Fact]
+    public async void GetPokemonDetails_ReturnsDetailsCorrectly()
+    {
+        var name = "Dave";
+        var details = await _providerUnderTest.GetPokemonDetails(name);
+
+        Assert.Equal(name, details.Name);
+        Assert.Equal(DESC, details.Description);
+    }
+
+    [Fact]
+    public async void GetTranslatedPokemonDetails_ReturnsDetailsCorrectly()
+    {
+        var name = "Dave";
+        var details = await _providerUnderTest.GetTranslatedPokemonDetails(name);
+
+        Assert.Equal(name, details.Name);
+        Assert.Equal(TRANSLATED_DESC, details.Description);
+    }
+}

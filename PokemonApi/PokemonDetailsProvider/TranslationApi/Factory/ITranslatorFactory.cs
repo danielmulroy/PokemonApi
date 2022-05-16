@@ -10,5 +10,5 @@ namespace PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
 
 public interface ITranslatorFactory
 {
-    public TranslatorBase GetTranslator(PokemonDetails details);
+    public ITranslator GetTranslator(PokemonDetails details);
 }

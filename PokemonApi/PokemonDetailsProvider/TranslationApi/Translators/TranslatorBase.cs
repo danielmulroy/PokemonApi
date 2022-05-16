@@ -11,12 +11,12 @@ using RestSharp;
 
 namespace PokemonApi.PokemonDetailsProvider.TranslationApi.Translators;
 
-public abstract class TranslatorBase
+public abstract class TranslatorBase : ITranslator
 {
     private readonly RestClient _client;
     private readonly IRequestWrapper _wrapper;
 
-    public TranslatorBase(TranslatorType type, IConfiguration configuration, IRequestWrapper wrapper)
+    protected TranslatorBase(TranslatorType type, IConfiguration configuration, IRequestWrapper wrapper)
     {
         var url = configuration.GetSection("ExternalApis").GetSection($"TranslationUrl").Value;
         _client = new RestClient(url + (url.EndsWith('/') ? "" : "/") + type);
