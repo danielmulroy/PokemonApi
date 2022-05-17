@@ -11,8 +11,8 @@ public class LeastRecentlyUsedCache<TKey, TValue>
     public LeastRecentlyUsedCache(int capacity)
     {
         _capacity = capacity;
-        _keys = new List<TKey>();
-        _cache = new Dictionary<TKey, TValue>();
+        _keys = new List<TKey>(capacity);
+        _cache = new Dictionary<TKey, TValue>(capacity);
     }
 
     public bool TryGet(TKey key, out TValue value)

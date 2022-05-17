@@ -9,7 +9,6 @@ namespace PokemonApi.PokemonDetailsProvider.DetailsProvider;
 /// </summary>
 public interface IPokemonDetailsProvider
 {
-    public Task<PokemonDetails> GetPokemonDetails(string name);
-    public Task<PokemonDetails> GetTranslatedPokemonDetails(string name);
-    bool NameIsValid(string name, out string error);
+    public Task<PokemonDetailsWrapper> GetPokemonDetails(string name);
+    public Task<PokemonDetailsWrapper> GetTranslatedPokemonDetails(string name);
 }

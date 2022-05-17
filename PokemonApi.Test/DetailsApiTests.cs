@@ -5,6 +5,7 @@ using PokemonApi.PokemonDetailsProvider.RequestWrapper;
 using RestSharp;
 using System.Linq;
 using System.Net;
+using PokemonApi.ErrorHandling;
 using Xunit;
 
 namespace PokemonApi.Test;
@@ -44,16 +45,14 @@ public class DetailsApiTests
     }
 
     [Fact]
-    public async void GetDetails_ReturnsNullIfPokemonIsNotFound()
+    public async void GetDetails_ThrowsIfPokemonIsNotFound()
     {
         _requestWrapper.Setup(m => m.Get(It.IsAny<RestClient>(), It.IsAny<RestRequest>()))
             .ReturnsAsync(GetBadResponse());
 
         _apiUnderTest = new DetailsApi(_configuration.Object, _requestWrapper.Object);
 
-        var resp = await _apiUnderTest.Get("Diglett");
-
-        Assert.Null(resp);
+        await Assert.ThrowsAsync<InvalidResponseException>(async () => await _apiUnderTest.Get("Diglett"));
     }
 
     private static RestResponse GetGoodResponse()

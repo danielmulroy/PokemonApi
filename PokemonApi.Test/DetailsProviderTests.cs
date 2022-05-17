@@ -38,35 +38,34 @@ public class DetailsProviderTests
     }
 
     [Theory]
-    [InlineData("Mewtwo", true)]
-    [InlineData("Mew Two", false)]
-    [InlineData("Mew2", false)]
-    [InlineData("", false)]
-    public void NameIsValid_ReturnsAccurately(string name, bool expected)
+    [InlineData("Mewtwo", false)]
+    [InlineData("Mew Two", true)]
+    [InlineData("Mew2", true)]
+    [InlineData("", true)]
+    public async void GetPokemonDetails_ReturnsError_IfNameInvalid(string name, bool expected)
     {
+        var resp = await _providerUnderTest.GetPokemonDetails(name);
 
-        var good = _providerUnderTest.NameIsValid(name, out _);
-
-        Assert.Equal(expected, good);
+        Assert.Equal(expected, resp.HasError);
     }
 
     [Fact]
     public async void GetPokemonDetails_ReturnsDetailsCorrectly()
     {
         var name = "Dave";
-        var details = await _providerUnderTest.GetPokemonDetails(name);
+        var wrapper = await _providerUnderTest.GetPokemonDetails(name);
 
-        Assert.Equal(name, details.Name);
-        Assert.Equal(DESC, details.Description);
+        Assert.Equal(name, wrapper.Details.Name);
+        Assert.Equal(DESC, wrapper.Details.Description);
     }
 
     [Fact]
     public async void GetTranslatedPokemonDetails_ReturnsDetailsCorrectly()
     {
         var name = "Dave";
-        var details = await _providerUnderTest.GetTranslatedPokemonDetails(name);
+        var wrapper = await _providerUnderTest.GetTranslatedPokemonDetails(name);
 
-        Assert.Equal(name, details.Name);
-        Assert.Equal(TRANSLATED_DESC, details.Description);
+        Assert.Equal(name, wrapper.Details.Name);
+        Assert.Equal(TRANSLATED_DESC, wrapper.Details.Description);
     }
 }

@@ -1,7 +1,9 @@
-﻿using PokemonApi.PokemonDetailsProvider.DetailsApi;
+﻿using System.Net;
+using PokemonApi.PokemonDetailsProvider.DetailsApi;
 using PokemonApi.PokemonDetailsProvider.DetailsProvider.Dto;
 using PokemonApi.PokemonDetailsProvider.TranslationApi.Factory;
 using System.Text.RegularExpressions;
+using PokemonApi.ErrorHandling;
 
 namespace PokemonApi.PokemonDetailsProvider.DetailsProvider;
 
@@ -16,34 +18,48 @@ public class PokemonDetailsProvider : IPokemonDetailsProvider
         _factory = factory;
     }
 
-    public async Task<PokemonDetails> GetPokemonDetails(string name)
+    public async Task<PokemonDetailsWrapper> GetPokemonDetails(string name)
     {
-        var apiDetails = await _detailsApi.Get(name);
-        if (apiDetails == null) return null;
-        var details = new PokemonDetails(apiDetails.Name, apiDetails.Description, apiDetails.Habitat, apiDetails.IsLegendary);
-        return details;
+        PokemonDetailsWrapper wrapper = default;
+        
+        try
+        {
+            ValidateName(name);
+            var apiDetails = await _detailsApi.Get(name);
+            wrapper = new PokemonDetailsWrapper(new PokemonDetails(apiDetails.Name, apiDetails.Description, apiDetails.Habitat, apiDetails.IsLegendary));
+        }
+        catch (HttpRequestException ex)
+        {
+            wrapper ??= new PokemonDetailsWrapper(null);
+            wrapper.AddError(ex.StatusCode, ex.Message);
+        }
+
+        return wrapper;
     }
 
-    public async Task<PokemonDetails> GetTranslatedPokemonDetails(string name)
+    public async Task<PokemonDetailsWrapper> GetTranslatedPokemonDetails(string name)
     {
-        var details = await GetPokemonDetails(name);
-        details.Description = await _factory.GetTranslator(details).Translate(details.Description);
-        return details;
+        var wrapper = await GetPokemonDetails(name);
+        if (wrapper.HasError) return wrapper;
+
+        try
+        {
+            wrapper.Details.Description =
+                await _factory.GetTranslator(wrapper.Details).Translate(wrapper.Details.Description);
+        }
+        catch (HttpRequestException ex)
+        {
+            wrapper.AddError(ex.StatusCode, ex.Message);
+        }
+
+        return wrapper;
     }
 
-    public bool NameIsValid(string name, out string error)
+    public void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-        {
-            error = "Name is blank. Please provide a name in the request.";
-            return false;
-        }
+            throw new InvalidRequestException("Name is blank. Please provide a name in the request.");
         if (!Regex.IsMatch(name, "^[A-Za-z]+$"))
-        {
-            error = "Name contains non-letter characters. Please provide JUST the name in the request.";
-            return false;
-        }
-        error = string.Empty;
-        return true;
+            throw new InvalidRequestException("Name contains non-letter characters. Please provide JUST the name in the request.");
     }
 }

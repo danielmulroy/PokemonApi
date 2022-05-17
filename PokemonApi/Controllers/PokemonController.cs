@@ -21,10 +21,8 @@ public class PokemonController : ControllerBase
     [ProducesResponseType(typeof(PokemonDetails), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetNormal(string name)
     {
-        if (!_detailsProvider.NameIsValid(name, out var error)) return BadRequest(error);
         var res = await _detailsProvider.GetPokemonDetails(name);
-        if (res == null) return BadRequest("Could not retrieve Pokemon details. Does this Pokemon exist?");
-        return Ok(res);
+        return res.HasError ? new ObjectResult(res.ErrorMessage) { StatusCode = (int)res.Status } : Ok(res);
     }
 
     [HttpGet("translated/{name}")]
@@ -32,9 +30,7 @@ public class PokemonController : ControllerBase
     [ProducesResponseType(typeof(PokemonDetails), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetTranslated(string name)
     {
-        if (!_detailsProvider.NameIsValid(name, out var error)) return BadRequest(error);
         var res = await _detailsProvider.GetTranslatedPokemonDetails(name);
-        if (res == null) return BadRequest("Could not retrieve Pokemon details. Does this Pokemon exist?");
-        return Ok(res);
+        return res.HasError ? new ObjectResult(res.ErrorMessage) { StatusCode = (int)res.Status } : Ok(res);
     }
 }

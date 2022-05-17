@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PokemonApi.ErrorHandling;
 using PokemonApi.PokemonDetailsProvider.ApiCache;
 using PokemonApi.PokemonDetailsProvider.RequestWrapper;
 using RestSharp;
@@ -40,7 +41,8 @@ public class DetailsApi : IDetailsApi
 
         var response = await _wrapper.Get(_client, request);
 
-        if (response == null || response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null) return null;
+        if (response == null || response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null) 
+            throw new InvalidResponseException("Unable to retrieve response from Pokemon Details API.");
 
         var details = JsonConvert.DeserializeObject<DetailsApiResponse>(response.Content);
         if (_cachingEnabled) _cache.Put(name, details);
