@@ -25,7 +25,7 @@ public class PokemonDetailsProvider : IPokemonDetailsProvider
         try
         {
             ValidateName(name);
-            var apiDetails = await _detailsApi.Get(name);
+            var apiDetails = await _detailsApi.Get(name.ToLower());
             wrapper = new PokemonDetailsWrapper(new PokemonDetails(apiDetails.Name, apiDetails.Description, apiDetails.Habitat, apiDetails.IsLegendary));
         }
         catch (HttpRequestException ex)

@@ -11,11 +11,13 @@ public abstract class TranslatorBase : ITranslator
     private readonly IRequestWrapper _wrapper;
     private readonly bool _cachingEnabled;
     private readonly LeastRecentlyUsedCache<string, string> _cache;
+    private string _urlElement;
 
     protected TranslatorBase(TranslatorType type, IConfiguration configuration, IRequestWrapper wrapper)
     {
         var url = configuration.GetSection("ExternalApis").GetSection("TranslationUrl").Value;
-        _client = new RestClient(url + (url.EndsWith('/') ? "" : "/") + type);
+        _client = new RestClient(url + (url.EndsWith('/') ? "" : "/"));
+        _urlElement = type + ".json?text=";
         _wrapper = wrapper;
 
         try
@@ -36,8 +38,7 @@ public abstract class TranslatorBase : ITranslator
     {
         if (_cachingEnabled && _cache.TryGet(text, out var cache)) return cache;
 
-        var request = new RestRequest();
-        request.AddJsonBody(new ReqBody(text));
+        var request = new RestRequest(_urlElement + text, Method.Post);
 
         var response = await _wrapper.Get(_client, request);
 

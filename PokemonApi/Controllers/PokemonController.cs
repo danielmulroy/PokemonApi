@@ -22,7 +22,7 @@ public class PokemonController : ControllerBase
     public async Task<IActionResult> GetNormal(string name)
     {
         var res = await _detailsProvider.GetPokemonDetails(name);
-        return res.HasError ? new ObjectResult(res.ErrorMessage) { StatusCode = (int)res.Status } : Ok(res);
+        return res.HasError ? new ObjectResult(res.ErrorMessage) { StatusCode = (int)res.Status } : Ok(res.Details);
     }
 
     [HttpGet("translated/{name}")]
@@ -31,6 +31,6 @@ public class PokemonController : ControllerBase
     public async Task<IActionResult> GetTranslated(string name)
     {
         var res = await _detailsProvider.GetTranslatedPokemonDetails(name);
-        return res.HasError ? new ObjectResult(res.ErrorMessage) { StatusCode = (int)res.Status } : Ok(res);
+        return res.HasError ? new ObjectResult(res.ErrorMessage) { StatusCode = (int)res.Status } : Ok(res.Details);
     }
 }
